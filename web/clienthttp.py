@@ -1,4 +1,4 @@
-#!/user/bin/env python
+#!/user/bin/env python3
 # -*- coding: utf-8 -*-
 # vim: set fileencoding=utf8:
 
@@ -20,7 +20,12 @@ class ClientWeb(object):
     def buscar_activitats(self, html):
         arbre = bs4.BeautifulSoup(html, features="lxml")
         activitats = arbre.find_all("div", "featured-links-item")
-        return activitats
+        activity_list = []
+        for activitat in activitats:
+            title = activitat.find("span", "flink-title")
+            link = activitat.find("a")
+            activity_list.append((title.text, link["href"]))
+        return activity_list
 
     def run(self):
         # descarregar-me html
